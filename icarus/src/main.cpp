@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	//
 	Editor::EditorSettings editor_state;
 	print("Loading editor state...");
-	if (editor_state.loadFromFile("engine_config.json")) {
+	if (editor_state.loadFromFile("icarus_config.json")) {
 		print("Success!");
 	}
 	else {
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 		editor_state.fullscreen = true;
 
 		// Save engine state
-		if (editor_state.saveToFile("engine_config.json"))
+		if (editor_state.saveToFile("icarus_config.json"))
 		{
 			print("Success!");
 
