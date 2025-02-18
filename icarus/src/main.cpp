@@ -4,6 +4,7 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
+#include "editor/EditorSettings.h"
 #include "editor/ui/EditorUIComponent.h"
 #include "editor/ui/MenuBar.h"
 #include "editor/ui/FileBrowser.h"
@@ -21,11 +22,38 @@ static Editor::EditorConsole console;
 
 int main(int argc, char** argv) 
 {
+	//
+	//Editor Config
+	//
+	Editor::EditorSettings editor_state;
+	print("Loading editor state...");
+	if (editor_state.loadFromFile("engine_config.json")) {
+		print("Success!");
+	}
+	else {
+		print("Failed to load editor state. Missing engine_config.json?");
+
+		print("Creating engine config...");
+
+		editor_state.windowWidth = 1280;
+		editor_state.windowHeight = 720;
+		editor_state.fullscreen = true;
+
+		// Save engine state
+		if (editor_state.saveToFile("engine_config.json"))
+		{
+			print("Success!");
+
+		}
+	}
 	if (argc > 1 && std::string(argv[1]) == "--editor") {
 		g_IsEditor = true;
 	}
 
-	HeliosWindow* main = new HeliosWindow(sf::Vector2<unsigned int>(640, 320), 60);
+	//
+	//sfmc
+	//
+	HeliosWindow* main = new HeliosWindow(sf::Vector2<unsigned int>(editor_state.windowWidth, editor_state.windowHeight), 60);
 
 	main->InitializeWindow();
 
@@ -36,7 +64,9 @@ int main(int argc, char** argv)
 	}
 
 	//print("loop started!");
-	sf::Clock deltaTime;
+	sf::Clock clock;
+	sf::Time delta_clock_time;
+	float delta_time;
 	bool first_frame = true;
 	while (main->GetSFWindow().isOpen())
 	{
@@ -44,6 +74,11 @@ int main(int argc, char** argv)
 		{
 			first_frame = false;
 		}
+
+		delta_clock_time = clock.restart();
+		delta_time = delta_clock_time.asSeconds();
+
+
 		while (const std::optional event = main->GetSFWindow().pollEvent())
 		{
 			ImGui::SFML::ProcessEvent(main->GetSFWindow(), *event);
@@ -65,7 +100,7 @@ int main(int argc, char** argv)
 		//RENDER
 		//
 		//ImGui
-		ImGui::SFML::Update(main->GetSFWindow(), deltaTime.restart());
+		ImGui::SFML::Update(main->GetSFWindow(), clock.restart());
 
 		//Editor UI Drawing
 		Editor::EditorUIComponent::RenderComponents();

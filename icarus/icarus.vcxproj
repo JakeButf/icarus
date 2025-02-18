@@ -77,12 +77,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)\External\SFML\include;$(SolutionDir)\External\imgui;$(SolutionDir)\External\imgui-sfml;$(SolutionDir)\icarus\src\core;$(SolutionDir)\icarus\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\External\SFML\include;$(SolutionDir)\External\imgui;$(SolutionDir)\External\imgui-sfml;$(SolutionDir)\icarus\src\core;$(SolutionDir)\icarus\src\;$(SolutionDir)External\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\External\SFML\lib;$(SolutionDir)\External\imgui;$(SolutionDir)\External\imgui-sfml;$(SolutionDir)\src\core;$(SolutionDir)\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\External\SFML\lib;$(SolutionDir)\External\imgui;$(SolutionDir)\External\imgui-sfml;$(SolutionDir)\src\core;$(SolutionDir)\src;$(SolutionDir)\External\json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-window-d.lib;sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -149,6 +149,7 @@
     <ClInclude Include="src\core\HeliosWindow.h" />
     <ClInclude Include="src\core\Icarus.hpp" />
     <ClInclude Include="src\core\InputContext.h" />
+    <ClInclude Include="src\editor\EditorSettings.h" />
     <ClInclude Include="src\editor\ui\EditorConsole.h" />
     <ClInclude Include="src\editor\ui\FileBrowser.h" />
     <ClInclude Include="src\editor\ui\MenuBar.h" />
