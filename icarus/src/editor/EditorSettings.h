@@ -2,11 +2,15 @@
 #include <iostream>
 #include <fstream>
 #include <json.hpp>
+#include <string>
 
 using json = nlohmann::json;
 
 namespace Editor
 {
+    // EditorSettings
+    //
+    // Contains information that needs to be saved/loaded between Icarus sessions
     struct EditorSettings
     {
         int windowWidth;
@@ -48,4 +52,33 @@ namespace Editor
             return true;
         }
     };
+
+    // ProjectSettings
+    //
+    // Holds information for individual game projects.
+    struct ProjectSettings
+    {
+        std::string name;
+        std::string projectPath;
+    };
+
+    bool CreateNewProject(std::string projectName, std::string path)
+    {
+        json j;
+        j['name'] = projectName;
+        j['path'] = path;
+
+        std::ofstream file(path + projectName);
+
+        if (file.is_open()) {
+            file << j.dump(4);  // Pretty print with 4-space indentation
+            file.close();
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

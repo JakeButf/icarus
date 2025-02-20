@@ -1,7 +1,13 @@
 #pragma once
 
+#include "../core/Icarus.hpp"
+
 #include "imgui.h"
 #include "EditorUIComponent.h"
+#include "FileBrowser.h"
+#include "../editor/EditorSettings.h"
+
+static Editor::FileBrowser fileDialog(Editor::FileBrowser::Mode::DIALOG, Editor::FileBrowser::SelectionType::DIRECTORY);
 
 // MenuBar.h
 //
@@ -19,7 +25,7 @@ namespace Editor
                 if (ImGui::BeginMenu("File")) {
 
                     if (ImGui::MenuItem("New Project", "Ctrl+Shift+N")) {
-                        // Handle New action
+                        NewProject();
                     }
 
                     if (ImGui::MenuItem("Save Project", "Ctrl+Shift+S")) {
@@ -68,5 +74,10 @@ namespace Editor
                 ImGui::EndMainMenuBar();
             }
 		}
+
+        void NewProject()
+        {
+            fileDialog.OpenDialog("C:\\Users\\");
+        }
 	};
 }

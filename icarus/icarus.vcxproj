@@ -151,9 +151,11 @@
     <ClInclude Include="src\core\InputContext.h" />
     <ClInclude Include="src\editor\EditorSettings.h" />
     <ClInclude Include="src\editor\ui\EditorConsole.h" />
+    <ClInclude Include="src\editor\ui\EditorLayout.h" />
     <ClInclude Include="src\editor\ui\FileBrowser.h" />
     <ClInclude Include="src\editor\ui\MenuBar.h" />
     <ClInclude Include="src\editor\ui\EditorUIComponent.h" />
+    <ClInclude Include="src\editor\ui\SceneView.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

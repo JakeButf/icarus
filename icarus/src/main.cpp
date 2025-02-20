@@ -5,10 +5,12 @@
 #include "imgui-SFML.h"
 
 #include "editor/EditorSettings.h"
+#include "editor/ui/EditorLayout.h"
 #include "editor/ui/EditorUIComponent.h"
 #include "editor/ui/MenuBar.h"
 #include "editor/ui/FileBrowser.h"
 #include "editor/ui/EditorConsole.h"
+#include "editor/ui/SceneView.h"
 
 #include "core/Icarus.hpp"
 #include "core/HeliosWindow.h"
@@ -31,7 +33,7 @@ int main(int argc, char** argv)
 		print("Success!");
 	}
 	else {
-		print("Failed to load editor state. Missing engine_config.json?");
+		print("Failed to load editor state. Missing icarus_config.json?");
 
 		print("Creating engine config...");
 
@@ -53,7 +55,7 @@ int main(int argc, char** argv)
 	//
 	//sfmc
 	//
-	HeliosWindow* main = new HeliosWindow(sf::Vector2<unsigned int>(editor_state.windowWidth, editor_state.windowHeight), 60);
+	HeliosWindow* main = new HeliosWindow(sf::Vector2<unsigned int>(editor_state.windowWidth, editor_state.windowHeight), 60, true);
 
 	main->InitializeWindow();
 
@@ -61,6 +63,9 @@ int main(int argc, char** argv)
 	{
 		ImGui::SFML::Init(main->GetSFWindow());
 		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+		//this must be done after main is created
+		static Editor::SceneView sceneView(main);
 	}
 
 	//print("loop started!");
@@ -103,7 +108,9 @@ int main(int argc, char** argv)
 		ImGui::SFML::Update(main->GetSFWindow(), clock.restart());
 
 		//Editor UI Drawing
+		Editor::EditorLayout::BeginLayout();
 		Editor::EditorUIComponent::RenderComponents();
+		Editor::EditorLayout::EndLayout();
 		
 		main->StartDraw();
 		

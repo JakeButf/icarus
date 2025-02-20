@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-bool g_IsEditor;
+bool g_IsEditor = true;
 
 // print
 //
