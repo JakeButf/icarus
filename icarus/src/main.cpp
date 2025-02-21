@@ -21,15 +21,13 @@ static Editor::MenuBar menuBar;
 static Editor::FileBrowser fileBrowser;
 static Editor::EditorConsole console;
 
-
 int main(int argc, char** argv) 
 {
 	//
 	//Editor Config
 	//
-	Editor::EditorSettings editor_state;
 	print("Loading editor state...");
-	if (editor_state.loadFromFile("icarus_config.json")) {
+	if (Editor::EditorSettings::s_EditorState.loadFromFile("icarus_config.json")) {
 		print("Success!");
 	}
 	else {
@@ -37,12 +35,12 @@ int main(int argc, char** argv)
 
 		print("Creating engine config...");
 
-		editor_state.windowWidth = 1280;
-		editor_state.windowHeight = 720;
-		editor_state.fullscreen = true;
+		Editor::EditorSettings::s_EditorState.windowWidth = 1280;
+		Editor::EditorSettings::s_EditorState.windowHeight = 720;
+		Editor::EditorSettings::s_EditorState.fullscreen = true;
 
 		// Save engine state
-		if (editor_state.saveToFile("icarus_config.json"))
+		if (Editor::EditorSettings::s_EditorState.saveToFile("icarus_config.json"))
 		{
 			print("Success!");
 
@@ -55,7 +53,7 @@ int main(int argc, char** argv)
 	//
 	//sfmc
 	//
-	HeliosWindow* main = new HeliosWindow(sf::Vector2<unsigned int>(editor_state.windowWidth, editor_state.windowHeight), 60, true);
+	HeliosWindow* main = new HeliosWindow(sf::Vector2<unsigned int>(Editor::EditorSettings::s_EditorState.windowWidth, Editor::EditorSettings::s_EditorState.windowHeight), 60, true);
 
 	main->InitializeWindow();
 

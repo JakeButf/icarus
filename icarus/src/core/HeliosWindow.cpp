@@ -24,11 +24,11 @@ void HeliosWindow::StartDraw()
 {
 	if (m_IsRenderTexture)
 	{
-		this->GetRenderTexture().clear(sf::Color(0xFF3AF2E9));
+		this->GetRenderTexture().clear(sf::Color(0x87ceebFF));
 	}
 	else 
 	{
-		this->GetSFWindow().clear(sf::Color(0xFF3AF2E9));
+		this->GetSFWindow().clear(sf::Color(0x87ceebFF));
 	}
 	
 }

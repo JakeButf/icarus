@@ -80,13 +80,36 @@ namespace Editor
                         ImGui::Text("Selected: %s", m_SelectedPath.string().c_str());
                     }
 
-                    // Confirm Selection Button
+                    //Name input
+                    if (m_SelectionType == SelectionType::DIRECTORY)
+                    {
+                        ImGui::InputText("Name", m_NameBuffer, IM_ARRAYSIZE(m_NameBuffer));
+                    }
+
+                    ImGui::Separator();
+
+                    // Confirm Selection Button & Name
                     if (!m_SelectedPath.empty())
                     {
+                        
                         if (ImGui::Button(m_SelectionType == SelectionType::DIRECTORY ? "Select Directory" : "Select File"))
                         {
-                            m_Result = m_SelectedPath.string();
-                            print("File Dialog Selection: ", m_Result);
+
+                            if (std::strlen(m_NameBuffer) > 0)
+                            {
+                                m_Result = (m_CurrentPath / std::string(m_NameBuffer)).string();
+                            }
+                            else if (!m_SelectedPath.empty())
+                            {
+                                m_Result = m_SelectedPath.string();
+                            }
+                            else
+                            {
+                                m_Result = m_CurrentPath.string();
+                            }
+
+                            CreateProjectDirectory(m_Result);
+                            print("Project Directory Created at: ", m_Result);
                             ImGui::CloseCurrentPopup();
                         }
                     }
@@ -149,12 +172,32 @@ namespace Editor
             }
         }
 
+        //TODO create success check
+        bool CreateProjectDirectory(std::string directory)
+        {
+            std::filesystem::path fsPath(directory);
+            std::string projectName = fsPath.stem().string();
+            std::string projectPath = fsPath.parent_path().string();
+
+            std::filesystem::path newProjectDir = std::filesystem::path(projectPath) / projectName;
+            if (!std::filesystem::exists(newProjectDir))
+            {
+                std::filesystem::create_directories(newProjectDir);
+            }
+
+            Editor::CreateNewProject(projectName, projectPath);
+
+            Editor::EditorSettings::s_EditorState.OpenProject(directory + + "\\" + projectName + ".json");
+            return true;
+        }
+
         Mode m_Mode;
         SelectionType m_SelectionType;
 
         bool m_IsOpen = true;
         bool m_PopupOpened = false;
 
+        char m_NameBuffer[256] = { 0 };
         std::filesystem::path m_RootPath;
         std::filesystem::path m_CurrentPath;
         std::filesystem::path m_SelectedFile;

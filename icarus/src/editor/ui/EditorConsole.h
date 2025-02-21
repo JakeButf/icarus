@@ -1,5 +1,6 @@
 #pragma once
 #include "EditorUIComponent.h"
+#include "editor/EditorSettings.h"
 
 #include <imgui.h>
 #include <streambuf>
@@ -36,8 +37,7 @@ namespace Editor
 		virtual void Render() override
 		{
 			ImGui::Begin("Console");
-
-			ImGui::BeginChild("ScrollingRegion", ImVec2(0, 300), true, ImGuiWindowFlags_HorizontalScrollbar);
+			ImGui::BeginChild("ScrollingRegion", ImGui::GetContentRegionAvail(), true, ImGuiWindowFlags_HorizontalScrollbar);
 			{
 				std::lock_guard<std::mutex> lock(mutex_);
 				ImGui::TextUnformatted(consoleOutput.c_str());

@@ -25,10 +25,8 @@ namespace Editor
                 const sf::Texture* texture = m_Window->GetSceneTexture();
                 if (texture) 
                 {
-                    ImVec2 size(static_cast<float>(m_Window->GetWindowSize().x),
-                        static_cast<float>(m_Window->GetWindowSize().y));
                     ImTextureID texId = (ImTextureID)(static_cast<uintptr_t>(texture->getNativeHandle()));
-                    ImGui::Image(texId, size);
+                    ImGui::Image(texId, ImGui::GetContentRegionAvail());
                 }
                 else 
                 {
