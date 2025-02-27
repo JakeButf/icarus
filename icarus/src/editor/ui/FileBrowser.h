@@ -21,21 +21,11 @@ namespace Editor
             DIRECTORY
         };
 
-		FileBrowser(Mode mode = Mode::BROWSER, SelectionType selectionType = SelectionType::FILE) : m_Mode(mode), m_SelectionType(selectionType)
+		FileBrowser(Mode mode = Mode::BROWSER, SelectionType selectionType = SelectionType::FILE, const std::string& popupName = "File Dialog") : m_Mode(mode), m_SelectionType(selectionType), m_PopupName(popupName)
 		{
 			m_RootPath = std::filesystem::current_path();
 			m_CurrentPath = m_RootPath;
 			m_IsOpen = false;
-		}
-
-		bool HasResult() const
-		{
-			return !m_Result.empty();
-		}
-
-		std::string GetResult() const
-		{
-			return m_Result;
 		}
 
         void OpenDialog(std::filesystem::path atLocation)
@@ -52,7 +42,21 @@ namespace Editor
             m_Result.clear();
             m_SelectedPath.clear();
             m_IsOpen = true;
-            ImGui::OpenPopup("File Dialog");
+        }
+
+        bool HasResult() const
+        {
+            return !m_Result.empty();
+        }
+
+        std::string GetResult() const
+        {
+            return m_Result;
+        }
+
+        void ClearResult()
+        {
+            m_Result.clear();
         }
 
 		void Render() override
@@ -67,10 +71,10 @@ namespace Editor
             {
                 if (m_IsOpen)
                 {
-                    ImGui::OpenPopup("File Dialog");
+                    ImGui::OpenPopup(m_PopupName.c_str());
                     m_IsOpen = false;
                 }
-                if (ImGui::BeginPopupModal("File Dialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+                if (ImGui::BeginPopupModal(m_PopupName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
                 {
                     RenderFileBrowserContent();
 
@@ -108,8 +112,6 @@ namespace Editor
                                 m_Result = m_CurrentPath.string();
                             }
 
-                            CreateProjectDirectory(m_Result);
-                            print("Project Directory Created at: ", m_Result);
                             ImGui::CloseCurrentPopup();
                         }
                     }
@@ -203,5 +205,6 @@ namespace Editor
         std::filesystem::path m_SelectedFile;
         std::filesystem::path m_SelectedPath;
         std::string m_Result;
+        std::string m_PopupName;
 	};
 }

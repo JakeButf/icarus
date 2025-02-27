@@ -120,6 +120,27 @@ namespace Editor
             
             return true;
         }
+
+        void CreateProjectDirectory(const std::string& directory)
+        {
+            std::filesystem::path fsPath(directory);
+            std::string projectName = fsPath.stem().string();
+            std::string projectPath = fsPath.parent_path().string();
+
+            std::filesystem::path newProjectDir = std::filesystem::path(projectPath) / projectName;
+            if (!std::filesystem::exists(newProjectDir))
+            {
+                std::filesystem::create_directories(newProjectDir);
+            }
+
+            Editor::CreateNewProject(projectName, projectPath);
+            Editor::EditorSettings::s_EditorState.OpenProject(directory + "\\" + projectName + ".json");
+        }
+
+        void OpenProjectDirectory(const std::string& fileDirectory)
+        {
+            Editor::EditorSettings::s_EditorState.OpenProject(fileDirectory);
+        }
     };
     inline EditorSettings EditorSettings::s_EditorState{};
 }
