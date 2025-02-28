@@ -5,50 +5,13 @@
 #include <string>
 #include <filesystem>
 
+#include "ProjectSettings.h"
 #include "Icarus.hpp"
 
 using json = nlohmann::json;
 
 namespace Editor
 {
-    // ProjectSettings
-    //
-    // Holds information for individual game projects.
-    struct ProjectSettings
-    {
-        std::string name;
-        std::string projectPath;
-    };
-
-    ProjectSettings CreateNewProject(std::string projectName, std::string path)
-    {
-        ProjectSettings p;
-        std::filesystem::path projectDir = std::filesystem::path(path) / projectName;
-        p.name = projectName;
-        p.projectPath = projectDir.string();
-
-        json j;
-        j["name"] = projectName;
-        j["path"] = path;
-
-        std::filesystem::path filePath = projectDir / (projectName + ".json");
-
-        std::ofstream file(filePath);
-
-        if (file.is_open()) 
-        {
-            file << j.dump(4);  // Pretty print with 4-space indentation
-            file.close();
-            print("Project Saved!");
-        }
-        else
-        {
-            print("Error saving project.");
-        }
-
-        return p;
-    }
-
     // EditorSettings
     //
     // Contains information that needs to be saved/loaded between Icarus sessions
@@ -60,7 +23,7 @@ namespace Editor
         int windowHeight;
         bool fullscreen;
         
-        Editor::ProjectSettings openProject;
+        ProjectSettings openProject;
 
         bool saveToFile(const std::string& filename) {
             json j;
@@ -133,7 +96,7 @@ namespace Editor
                 std::filesystem::create_directories(newProjectDir);
             }
 
-            Editor::CreateNewProject(projectName, projectPath);
+            CreateNewProject(projectName, projectPath);
             Editor::EditorSettings::s_EditorState.OpenProject(directory + "\\" + projectName + ".json");
         }
 

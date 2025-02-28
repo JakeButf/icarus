@@ -1,5 +1,6 @@
 #pragma once
 #include "EditorUIComponent.h"
+#include "ProjectSettings.h"
 
 #include <string>
 #include <filesystem>
@@ -187,7 +188,7 @@ namespace Editor
                 std::filesystem::create_directories(newProjectDir);
             }
 
-            Editor::CreateNewProject(projectName, projectPath);
+            CreateNewProject(projectName, projectPath);
 
             Editor::EditorSettings::s_EditorState.OpenProject(directory + + "\\" + projectName + ".json");
             return true;

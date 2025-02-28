@@ -149,6 +149,8 @@
     <ClInclude Include="src\core\HeliosWindow.h" />
     <ClInclude Include="src\core\Icarus.hpp" />
     <ClInclude Include="src\core\InputContext.h" />
+    <ClInclude Include="src\core\ProjectSettings.h" />
+    <ClInclude Include="src\core\Scene.h" />
     <ClInclude Include="src\editor\EditorSettings.h" />
     <ClInclude Include="src\editor\ui\EditorConsole.h" />
     <ClInclude Include="src\editor\ui\EditorLayout.h" />
